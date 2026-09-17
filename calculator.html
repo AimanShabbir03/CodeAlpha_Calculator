@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reckon — Desk Calculator</title>
+<style>
+  :root{
+    --desk:#C9C1AE;
+    --body-shell:#EDE6D6;
+    --body-shell-dark:#DDD4BF;
+    --ink:#221F1A;
+    --ink-soft:#514A3F;
+    --screen:#D8DCC8;
+    --screen-ink:#242A1E;
+    --brass:#8C6B3F;
+    --key-num:#FBF8F1;
+    --key-op:#3A3530;
+    --key-op-text:#F2ECDD;
+    --key-fn:#C7BEA9;
+    font-size:16px;
+  }
+
+  *{ box-sizing:border-box; }
+
+  html,body{
+    margin:0;
+    min-height:100vh;
+    background: var(--desk);
+    background-image:
+      radial-gradient(circle at 20% 15%, rgba(255,255,255,0.35), transparent 45%),
+      radial-gradient(circle at 85% 90%, rgba(0,0,0,0.06), transparent 50%);
+    font-family: 'Iowan Old Style','Georgia', serif;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding: 3rem 1.2rem;
+  }
+
+  .unit{
+    width: 340px;
+    max-width:100%;
+    background: linear-gradient(160deg, var(--body-shell), var(--body-shell-dark));
+    border-radius: 22px;
+    padding: 1.6rem 1.3rem 1.7rem;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.6) inset,
+      0 40px 60px -20px rgba(20,17,10,0.35),
+      0 10px 20px -8px rgba(20,17,10,0.25);
+  }
+
+  .brand{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    padding: 0 0.2rem 1.1rem;
+  }
+
+  .brand-name{
+    font-size:1.05rem;
+    letter-spacing:0.02em;
+    color:var(--ink);
+    font-style:italic;
+  }
+
+  .brand-mark{
+    font-size:0.68rem;
+    color:var(--ink-soft);
+    font-family:'Courier New', monospace;
+    letter-spacing:0.03em;
+  }
+
+  .screen{
+    background: var(--screen);
+    border-radius:10px;
+    padding: 1.3rem 1.1rem 1rem;
+    box-shadow:
+      inset 0 3px 8px rgba(0,0,0,0.22),
+      inset 0 -1px 0 rgba(255,255,255,0.25);
+    margin-bottom: 1.2rem;
+    position:relative;
+    overflow:hidden;
+  }
+
+  .screen::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,0.025),
+      rgba(0,0,0,0.025) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+    pointer-events:none;
+  }
+
+  .screen-trail{
+    min-height: 1.1rem;
+    font-family:'Courier New', monospace;
+    font-size:0.85rem;
+    color: rgba(36,42,30,0.55);
+    text-align:right;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    margin-bottom:0.3rem;
+  }
+
+  .screen-main{
+    font-family:'Courier New', monospace;
+    font-size: clamp(1.8rem, 8vw, 2.5rem);
+    color: var(--screen-ink);
+    text-align:right;
+    line-height:1;
+    white-space:nowrap;
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+
+  .screen-main::-webkit-scrollbar{ display:none; }
+
+  .keys{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.6rem;
+  }
+
+  button.key{
+    border:none;
+    border-radius: 12px;
+    font-family: 'Courier New', monospace;
+    font-size: 1.15rem;
+    padding: 0.95rem 0;
+    cursor:pointer;
+    color: var(--ink);
+    background: var(--key-num);
+    box-shadow:
+      0 2px 0 rgba(0,0,0,0.12),
+      0 3px 6px rgba(20,17,10,0.15);
+    transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.2s ease;
+  }
+
+  button.key:active{
+    transform: translateY(2px);
+    box-shadow: 0 0 0 rgba(0,0,0,0.12);
+  }
+
+  button.key:hover{ background:#ffffff; }
+
+  button.key.fn{
+    background: var(--key-fn);
+    color: var(--ink);
+    font-size:1rem;
+  }
+
+  button.key.op{
+    background: var(--key-op);
+    color: var(--key-op-text);
+    font-size:1.3rem;
+  }
+
+  button.key.op:hover{ background:#4a443c; }
+
+  button.key.equals{
+    background: var(--brass);
+    color:#fff;
+    grid-row: span 2;
+  }
+
+  button.key.equals:hover{ background:#9c7a49; }
+
+  button.key.zero{ grid-column: span 2; }
+
+  button.key.active-flash{
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.25);
+  }
+
+  .hint{
+    text-align:center;
+    font-family: 'Courier New', monospace;
+    font-size:0.68rem;
+    color: rgba(34,31,26,0.4);
+    margin-top: 1rem;
+    letter-spacing:0.01em;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition-duration:0.01ms !important; }
+  }
+
+  button:focus-visible{
+    outline: 2px solid var(--brass);
+    outline-offset: 2px;
+  }
+</style>
+</head>
+<body>
+
+<div class="unit">
+  <div class="brand">
+    <span class="brand-name">Reckon</span>
+    <span class="brand-mark">MODEL 12-A</span>
+  </div>
+
+  <div class="screen">
+    <div class="screen-trail" id="trail">&nbsp;</div>
+    <div class="screen-main" id="display">0</div>
+  </div>
+
+  <div class="keys">
+    <button class="key fn" data-action="clear">AC</button>
+    <button class="key fn" data-action="backspace">⌫</button>
+    <button class="key fn" data-action="percent">%</button>
+    <button class="key op" data-action="operator" data-value="÷">÷</button>
+
+    <button class="key" data-action="digit" data-value="7">7</button>
+    <button class="key" data-action="digit" data-value="8">8</button>
+    <button class="key" data-action="digit" data-value="9">9</button>
+    <button class="key op" data-action="operator" data-value="×">×</button>
+
+    <button class="key" data-action="digit" data-value="4">4</button>
+    <button class="key" data-action="digit" data-value="5">5</button>
+    <button class="key" data-action="digit" data-value="6">6</button>
+    <button class="key op" data-action="operator" data-value="−">−</button>
+
+    <button class="key" data-action="digit" data-value="1">1</button>
+    <button class="key" data-action="digit" data-value="2">2</button>
+    <button class="key" data-action="digit" data-value="3">3</button>
+    <button class="key op" data-action="operator" data-value="+">+</button>
+
+    <button class="key zero" data-action="digit" data-value="0">0</button>
+    <button class="key" data-action="decimal">.</button>
+    <button class="key equals" data-action="equals">=</button>
+  </div>
+
+  <p class="hint">Keyboard ready — numbers, + − * / , enter, backspace, esc</p>
+</div>
+
+<script>
+  const displayEl = document.getElementById('display');
+  const trailEl = document.getElementById('trail');
+
+  let current = '0';
+  let previous = null;
+  let operator = null;
+  let overwrite = true;
+
+  const opSymbols = { '+':'+', '−':'−', '×':'×', '÷':'÷' };
+
+  function formatNumber(numStr){
+    if (numStr === 'Error') return numStr;
+    const [intPart, decPart] = numStr.split('.');
+    const withCommas = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return decPart !== undefined ? `${withCommas}.${decPart}` : withCommas;
+  }
+
+  function updateDisplay(){
+    displayEl.textContent = formatNumber(current);
+    trailEl.textContent = previous !== null && operator
+      ? `${formatNumber(previous)} ${operator}`
+      : '\u00A0';
+  }
+
+  function inputDigit(d){
+    if (overwrite){
+      current = d === '.' ? '0.' : d;
+      overwrite = false;
+    } else {
+      if (current.length >= 14) return;
+      current += d;
+    }
+    updateDisplay();
+  }
+
+  function inputDecimal(){
+    if (overwrite){
+      current = '0.';
+      overwrite = false;
+      updateDisplay();
+      return;
+    }
+    if (!current.includes('.')) current += '.';
+    updateDisplay();
+  }
+
+  function clearAll(){
+    current = '0';
+    previous = null;
+    operator = null;
+    overwrite = true;
+    updateDisplay();
+  }
+
+  function backspace(){
+    if (overwrite) return;
+    current = current.length > 1 ? current.slice(0, -1) : '0';
+    if (current === '-' || current === '') current = '0';
+    if (current === '0') overwrite = true;
+    updateDisplay();
+  }
+
+  function percent(){
+    const val = parseFloat(current);
+    if (isNaN(val)) return;
+    current = String(val / 100);
+    updateDisplay();
+  }
+
+  function compute(a, b, op){
+    switch(op){
+      case '+': return a + b;
+      case '−': return a - b;
+      case '×': return a * b;
+      case '÷': return b === 0 ? NaN : a / b;
+      default: return b;
+    }
+  }
+
+  function roundResult(n){
+    return Math.round((n + Number.EPSILON) * 1e10) / 1e10;
+  }
+
+  function chooseOperator(op){
+    const inputVal = parseFloat(current);
+
+    if (operator && !overwrite){
+      const result = compute(previous, inputVal, operator);
+      if (isNaN(result)){
+        showError();
+        return;
+      }
+      previous = roundResult(result);
+      current = String(previous);
+    } else {
+      previous = inputVal;
+    }
+
+    operator = op;
+    overwrite = true;
+    updateDisplay();
+  }
+
+  function equals(){
+    if (operator === null || previous === null) return;
+    const inputVal = parseFloat(current);
+    const result = compute(previous, inputVal, operator);
+    if (isNaN(result)){
+      showError();
+      return;
+    }
+    current = String(roundResult(result));
+    previous = null;
+    operator = null;
+    overwrite = true;
+    updateDisplay();
+  }
+
+  function showError(){
+    current = 'Error';
+    previous = null;
+    operator = null;
+    overwrite = true;
+    displayEl.textContent = current;
+    trailEl.textContent = 'Division by zero';
+  }
+
+  function flashKey(btn){
+    if (!btn) return;
+    btn.classList.add('active-flash');
+    setTimeout(() => btn.classList.remove('active-flash'), 110);
+  }
+
+  document.querySelector('.keys').addEventListener('click', (e) => {
+    const btn = e.target.closest('.key');
+    if (!btn) return;
+    const { action, value } = btn.dataset;
+
+    if (action === 'digit') inputDigit(value);
+    else if (action === 'decimal') inputDecimal();
+    else if (action === 'clear') clearAll();
+    else if (action === 'backspace') backspace();
+    else if (action === 'percent') percent();
+    else if (action === 'operator') chooseOperator(value);
+    else if (action === 'equals') equals();
+  });
+
+  const keyMap = {
+    '0':'0','1':'1','2':'2','3':'3','4':'4','5':'5','6':'6','7':'7','8':'8','9':'9',
+    '+':'+', '-':'−', '*':'×', '/':'÷'
+  };
+
+  window.addEventListener('keydown', (e) => {
+    const k = e.key;
+
+    if (keyMap[k] && '0123456789'.includes(k)){
+      inputDigit(k);
+      flashKey(document.querySelector(`[data-action="digit"][data-value="${k}"]`));
+      return;
+    }
+    if (k === '.' || k === ','){
+      inputDecimal();
+      flashKey(document.querySelector('[data-action="decimal"]'));
+      return;
+    }
+    if (['+','-','*','/'].includes(k)){
+      e.preventDefault();
+      const sym = keyMap[k];
+      chooseOperator(sym);
+      flashKey(document.querySelector(`[data-action="operator"][data-value="${sym}"]`));
+      return;
+    }
+    if (k === 'Enter' || k === '='){
+      e.preventDefault();
+      equals();
+      flashKey(document.querySelector('[data-action="equals"]'));
+      return;
+    }
+    if (k === 'Backspace'){
+      backspace();
+      flashKey(document.querySelector('[data-action="backspace"]'));
+      return;
+    }
+    if (k === 'Escape'){
+      clearAll();
+      flashKey(document.querySelector('[data-action="clear"]'));
+      return;
+    }
+    if (k === '%'){
+      percent();
+      flashKey(document.querySelector('[data-action="percent"]'));
+      return;
+    }
+  });
+
+  updateDisplay();
+</script>
+</body>
+</html>
