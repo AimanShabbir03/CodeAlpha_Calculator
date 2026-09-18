@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reckon — Desk Calculator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="unit">
+  <div class="brand">
+    <span class="brand-name">Reckon</span>
+    <span class="brand-mark">MODEL 12-A</span>
+  </div>
+
+  <div class="screen">
+    <div class="screen-trail" id="trail">&nbsp;</div>
+    <div class="screen-main" id="display">0</div>
+  </div>
+
+  <div class="keys">
+    <button class="key fn" data-action="clear">AC</button>
+    <button class="key fn" data-action="backspace">⌫</button>
+    <button class="key fn" data-action="percent">%</button>
+    <button class="key op" data-action="operator" data-value="÷">÷</button>
+
+    <button class="key" data-action="digit" data-value="7">7</button>
+    <button class="key" data-action="digit" data-value="8">8</button>
+    <button class="key" data-action="digit" data-value="9">9</button>
+    <button class="key op" data-action="operator" data-value="×">×</button>
+
+    <button class="key" data-action="digit" data-value="4">4</button>
+    <button class="key" data-action="digit" data-value="5">5</button>
+    <button class="key" data-action="digit" data-value="6">6</button>
+    <button class="key op" data-action="operator" data-value="−">−</button>
+
+    <button class="key" data-action="digit" data-value="1">1</button>
+    <button class="key" data-action="digit" data-value="2">2</button>
+    <button class="key" data-action="digit" data-value="3">3</button>
+    <button class="key op" data-action="operator" data-value="+">+</button>
+
+    <button class="key zero" data-action="digit" data-value="0">0</button>
+    <button class="key" data-action="decimal">.</button>
+    <button class="key equals" data-action="equals">=</button>
+  </div>
+
+  <p class="hint">Keyboard ready — numbers, + − * / , enter, backspace, esc</p>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
