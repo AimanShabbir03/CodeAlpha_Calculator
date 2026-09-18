@@ -1,85 +1,95 @@
-# 🧮 Calculator
+# 🧮 Reckon — Desk Calculator
 
-A responsive and interactive **Calculator** built using **HTML, CSS, and JavaScript in a single HTML file**.
+A clean, fully functional calculator built with plain **HTML, CSS, and JavaScript** — styled as a physical desk calculator, with full keyboard support and real-time result display. Built as part of the **CodeAlpha Internship** (Front-End Development track).
 
-The calculator allows users to perform basic arithmetic operations, enter numbers, clear the display, and view calculation results through an interactive user interface. It also includes keyboard support for a convenient user experience.
+🔗 **Repository:** [CodeAlpha_Calculator](https://github.com/AimanShabbir03/CodeAlpha_Calculator.git)
+
+---
 
 ## ✨ Features
 
-* ➕ Addition (+)
-* ➖ Subtraction (−)
-* ✖️ Multiplication (×)
-* ➗ Division (÷)
-* 🖥️ Interactive display screen
-* 🔢 Number and operator buttons
-* 🧹 Clear screen functionality
-* ⚡ Real-time calculation and result display
-* ⌨️ Keyboard support
-* 🎨 Clean and user-friendly interface
-* 📱 Responsive design for different screen sizes
-* ✨ Smooth styling and interactive button effects
+- **All core arithmetic operations** — addition (+), subtraction (−), multiplication (×), and division (÷)
+- **Percentage (%)** support
+- **Real-time display** — the screen updates as you type, with a running "trail" showing the previous number and operator
+- **Clear & backspace** — `AC` resets everything, `⌫` deletes the last digit
+- **Division-by-zero handling** — shows a clear `Error` message instead of crashing
+- **Full keyboard support** — numbers, `+ − * /`, `Enter`/`=` for equals, `Backspace`, `Esc` to clear, and `%`
+- **Styling enhancements** — tactile pressed-button animation, comma-formatted large numbers, monospace LCD-style screen, and accessible focus states
 
-## 🛠️ Technologies Used
+---
 
-* **HTML5** – Calculator structure and user interface
-* **CSS3** – Styling, layout, button design, and responsive appearance
-* **JavaScript** – Arithmetic operations, user input handling, calculations, and keyboard support
+## 🛠️ Built With
 
-## 📂 Project Structure
+- **HTML5** — semantic structure
+- **CSS3** — custom properties (CSS variables), Grid layout for the keypad, transitions & tactile button effects
+- **Vanilla JavaScript (ES6)** — calculation logic, input handling, and keyboard event handling (no frameworks or libraries)
 
-```text
-calculator.html
+---
+
+## 📁 Project Structure
+
+```
+CodeAlpha_Calculator/
+├── calculator/
+│   ├── index.html      # Page markup/structure
+│   ├── style.css        # All styling (theme, layout, button/screen design)
+│   └── script.js        # Calculator logic (input, operators, keyboard support)
+└── README.md             # Project documentation
 ```
 
-All HTML, CSS, and JavaScript code is contained in a **single `calculator.html` file**.
+---
 
-## 🚀 How to Run
+## 🚀 Getting Started
 
-1. Clone this repository:
+No build tools, no dependencies — just open it in a browser.
 
-```bash
-git clone https://github.com/AimanShabbir03/CodeAlpha_Calculator.git
-```
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/AimanShabbir03/CodeAlpha_Calculator.git
+   ```
+2. **Move into the calculator folder**
+   ```bash
+   cd CodeAlpha_Calculator/calculator
+   ```
+3. **Open `index.html`**
+   - Double-click the file to open it directly in your browser, **or**
+   - Use a live server (e.g. the VS Code "Live Server" extension) for the best experience
 
-2. Open the project folder.
-3. Open `calculator.html` in any modern web browser.
-4. Enter numbers and use the arithmetic operators to perform calculations.
-5. Try the clear button and keyboard support.
+That's it — no installation required.
 
-## 🎯 Task Objectives
+---
 
-This project was created to practice:
+## 🎮 Usage
 
-* Building a calculator using HTML, CSS, and JavaScript
-* Implementing basic arithmetic operations
-* Designing an interactive calculator interface
-* Handling user input and clearing the display
-* Displaying calculation results
-* Implementing keyboard support
-* Improving frontend design and user experience
+- Click the on-screen keys, or use your **keyboard**:
 
-## 📱 Responsive Design
+  | Key(s) | Action |
+  |---|---|
+  | `0`–`9` | Enter digits |
+  | `+` `-` `*` `/` | Operators |
+  | `.` or `,` | Decimal point |
+  | `Enter` or `=` | Calculate result |
+  | `Backspace` | Delete last digit |
+  | `Esc` | Clear everything (AC) |
+  | `%` | Convert current number to a percentage |
 
-The calculator is designed to provide a user-friendly experience across different screen sizes, including:
-
-* 💻 Desktop
-* 📱 Mobile
-* 📲 Tablet
-
-## 🔮 Future Improvements
-
-* Add advanced mathematical operations
-* Add calculation history
-* Add dark and light themes
-* Improve accessibility features
-* Add scientific calculator functionality
+---
 
 ## 👩‍💻 Author
 
 **Aiman Shabbir**
+Software Engineer & Frontend Developer
 
-Frontend Developer | Software Engineering Graduate
+- 📧 Email: [aimilicious02@gmail.com](mailto:aimilicious02@gmail.com)
+- 💻 GitHub: [@AimanShabbir03](https://github.com/AimanShabbir03)
+- 🔗 LinkedIn: [aiman-s-342390326](https://www.linkedin.com/in/aiman-s-342390326/)
 
 ---
 
-⭐ If you like this project, feel free to give it a star!
+## 📄 License
+
+This project is open source and available for learning purposes. Feel free to fork it and build on top of it.
+
+---
+
+⭐ If you found this project helpful, consider giving it a star on GitHub!
