@@ -2,8 +2,6 @@
 
 A clean, fully functional calculator built with plain **HTML, CSS, and JavaScript** — styled as a physical desk calculator, with full keyboard support and real-time result display. Built as part of the **CodeAlpha Internship** (Front-End Development track).
 
-🔗 **Repository:** [CodeAlpha_Calculator](https://github.com/AimanShabbir03/CodeAlpha_Calculator.git)
-
 ---
 
 ## ✨ Features
